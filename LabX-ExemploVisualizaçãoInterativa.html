@@ -6,15 +6,121 @@
 <head>
   <meta charset="utf-8">
   <style>
-    html,body,form,fieldset,table,tr,td,img {
-        margin: 0;
-        padding: 0;
-        font: 100%/150% calibri, helvetica, sans-serif;
+    /* Reset básico */
+    html, body, form, fieldset, table, tr, td, img {
+      margin: 0;
+      padding: 0;
+      font-size: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    td, td * { 
-        max-height: 30px !important;
+
+    /* Estilos da tabela de cabeçalho */
+    table {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      border-spacing: 0;
+      background-color: #f8f9fa;
     }
-</style>
+
+    table td {
+      padding: 10px 20px;
+      font-size: 0.9em;
+      color: #555;
+    }
+
+    table tr:first-child td {
+      border-bottom: 1px solid #ddd;
+    }
+
+    table td:last-child {
+      text-align: right;
+    }
+
+    /* Cabeçalho do projeto */
+    #header h2 {
+      text-align: center;
+      font-size: 1.8em;
+      color: #343a40;
+      margin-top: 20px;
+    }
+
+    #header h4 {
+      text-align: center;
+      font-size: 1.2em;
+      margin-top: -10px;
+      color: #6c757d;
+    }
+
+    #header p {
+      margin-bottom: 0;
+      text-align: center;
+      color: #6c757d;
+    }
+
+    /* Resumo do projeto */
+    #header p.resumo {
+      text-align: justify;
+      padding: 20px 50px;
+      color: #495057;
+      line-height: 1.5em;
+    }
+
+    /* Conteúdo da visualização */
+    #container {
+      max-width: 100%;
+      height: 470px;
+      padding: 20px 50px;
+    }
+
+    /* Estilos do rodapé */
+    #footer {
+      background-color: #f8f9fa;
+      padding: 20px 50px;
+      font-size: 0.9em;
+      color: #6c757d;
+    }
+
+    #footer p {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    #footer ul {
+      list-style-type: disc;
+      margin-left: 20px;
+      padding-left: 20px;
+    }
+
+    #footer ul li {
+      margin-bottom: 5px;
+    }
+
+    /* Tooltip e interatividade */
+    .echarts-tooltip {
+      border-radius: 4px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      background-color: #fff;
+      color: #343a40;
+      font-size: 0.9em;
+    }
+
+    /* Responsividade */
+    @media screen and (max-width: 768px) {
+      #container {
+        padding: 10px 20px;
+      }
+
+      #footer {
+        padding: 10px 20px;
+      }
+
+      #header p.resumo {
+        padding: 10px 20px;
+      }
+    }
+  </style>
 </head>
 <body style="width: 100%; height: 100%; margin: 0">
   <table style="width: 100%; margin: 0px; padding: 0px; border-width:0px;">
@@ -44,9 +150,12 @@
   <div id="footer" style="height: 2%">
     <p style="text-align:justify; padding: 20px 50px 0px 50px;"><b>Dicas para interagir com a visualização</b>:</p>
     <ul style="padding: 0px 50px 10px 75px;">
-      <li>Inserir aqui breves instruções para o usuário navegar na visualização e usar o máximo dos recursos de interação disponíveis.</li>
-      <li>...</li>
-      <li>...</li>
+      <li>Passe o mouse sobre os blocos e fluxos para ver mais detalhes sobre as conexões e os valores.</li>
+      <li>Clique nos elementos para destacar suas conexões com outros blocos e visualizar os dados adjacentes.</li>
+      <li>Use o recurso de zoom no navegador para ver detalhes específicos das áreas com mais conexões.</li>
+      <li>Redimensione a janela para ajustar automaticamente o gráfico ao tamanho da tela.</li>
+      <li>Se houver uma legenda ou ícones, utilize-os para filtrar ou destacar informações específicas.</li>
+      <li>Explore diferentes níveis de fluxo no gráfico para entender como os produtos estão interligados.</li>
     </ul>
   </div>
 
