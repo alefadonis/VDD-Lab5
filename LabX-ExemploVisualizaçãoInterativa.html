@@ -1,17 +1,22 @@
-<!--
-	THIS EXAMPLE WAS DOWNLOADED FROM https://echarts.apache.org/examples/en/editor.html?c=sankey-energy
--->
 <!DOCTYPE html>
 <html lang="en" style="height: 100%">
+
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   <style>
     /* Reset básico */
-    html, body, form, fieldset, table, tr, td, img {
+    html,
+    body,
+    form,
+    fieldset,
+    table,
+    tr,
+    td,
+    img {
       margin: 0;
       padding: 0;
       font-size: 100%;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     }
 
     /* Estilos da tabela de cabeçalho */
@@ -122,110 +127,177 @@
     }
   </style>
 </head>
+
 <body style="width: 100%; height: 100%; margin: 0">
-  <table style="width: 100%; margin: 0px; padding: 0px; border-width:0px;">
+  <table style="width: 100%; margin: 0px; padding: 0px; border-width: 0px">
     <tbody>
-        <tr height="10px">
-            <td>UNIVERSIDADE FEDERAL DE CAMPINA GRANDE - UFCG</td>
-            <td style="text-align: right;">Disciplina: Visualiza&ccedil;&atilde;o de Dados (TECC)</td>
-        </tr>
-        <tr>
-            <td>CENTRO DE ENGENHARIA EL&Eacute;TRICA E INFORM&Aacute;TICA - CEEI</td>
-            <td style="text-align: right;">Professor: Maxwell Guimar&atilde;es de Oliveira</td>
-        </tr>
-        <tr>
-            <td>UNIDADE ACAD&Ecirc;MICA DE SISTEMAS E COMPUTA&Ccedil;&Atilde;O - UASC</td>
-            <td style="text-align: right;">Período: 2023.2</td>
-        </tr>
+      <tr height="10px">
+        <td>UNIVERSIDADE FEDERAL DE CAMPINA GRANDE - UFCG</td>
+        <td style="text-align: right">
+          Disciplina: Visualiza&ccedil;&atilde;o de Dados (TECC)
+        </td>
+      </tr>
+      <tr>
+        <td>
+          CENTRO DE ENGENHARIA EL&Eacute;TRICA E INFORM&Aacute;TICA - CEEI
+        </td>
+        <td style="text-align: right">
+          Professor: Maxwell Guimar&atilde;es de Oliveira
+        </td>
+      </tr>
+      <tr>
+        <td>
+          UNIDADE ACAD&Ecirc;MICA DE SISTEMAS E COMPUTA&Ccedil;&Atilde;O -
+          UASC
+        </td>
+        <td style="text-align: right">Período: 2023.2</td>
+      </tr>
     </tbody>
   </table>
   <div id="header">
-    <h2 style="text-align:center;">Projeto de Visualização Interativa de Dados</h2>
-    <h4 style="text-align:center;"><u>Grupo F</u>: Álef Carlos,  João Uchôa, José Combé, José Neto, Laysa Silva&nbsp; &nbsp;</h4>
-    <p style="text-align:center;">&nbsp;</p>
-    <h2 style="text-align:center;"><span style="font-family:'Lucida Sans Unicode', 'Lucida Grande', sans-serif;"><strong>Visualização dos ganhos pela venda de produtos do Varejo de 2022 a 2023</strong></span></h3>
-    <p style="text-align:justify; padding: 10px 50px 10px 50px;">Breve resumo sobre os dados (e as histórias) visualizadas.</p>
+    <h2 style="text-align: center">
+      Projeto de Visualização Interativa de Dados
+    </h2>
+    <h4 style="text-align: center">
+      <u>Grupo F</u>: Álef Carlos, João Uchôa, José Combé, José Neto, Laysa
+      Silva&nbsp; &nbsp;
+    </h4>
+    <h2 style="text-align: center">
+      <span style="
+            font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+          "><strong>Vendas por Categoria de Produto</strong></span>
+    </h2>
+    <p style="text-align: justify; padding: 10px 50px 10px 50px">
+      Visualização das vendas categorizadas e sua evolução ao longo dos anos.
+    </p>
   </div>
-  <div id="container" style="max-width: 100%; height: 470px; padding: 10px 50px 10px 50px;"></div>
-  <div id="footer" style="height: 2%">
-    <p style="text-align:justify; padding: 20px 50px 0px 50px;"><b>Dicas para interagir com a visualização</b>:</p>
-    <ul style="padding: 0px 50px 10px 75px;">
-      <li>Passe o mouse sobre os blocos e fluxos para ver mais detalhes sobre as conexões e os valores.</li>
-      <li>Clique nos elementos para destacar suas conexões com outros blocos e visualizar os dados adjacentes.</li>
-      <li>Use o recurso de zoom no navegador para ver detalhes específicos das áreas com mais conexões.</li>
-      <li>Redimensione a janela para ajustar automaticamente o gráfico ao tamanho da tela.</li>
-      <li>Se houver uma legenda ou ícones, utilize-os para filtrar ou destacar informações específicas.</li>
-      <li>Explore diferentes níveis de fluxo no gráfico para entender como os produtos estão interligados.</li>
-    </ul>
-  </div>
+  <div id="container_pie" style="max-width: 100%; height: 400px; padding: 10px 50px 10px 50px"></div>
+  <div id="container_line" style="max-width: 100%; height: 400px; padding: 10px 50px 10px 50px"></div>
 
   <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
   <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
-  
-  <!-- Uncomment this line if you want to dataTool extension
-  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/extension/dataTool.min.js"></script>
-  -->
-  <!-- Uncomment this line if you want to use gl extension
-  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-gl@2/dist/echarts-gl.min.js"></script>
-  -->
-  <!-- Uncomment this line if you want to echarts-stat extension
-  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-stat@latest/dist/ecStat.min.js"></script>
-  -->
-  <!-- Uncomment this line if you want to use map
-  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/china.js"></script>
-  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/world.js"></script>
-  -->
-  <!-- Uncomment these two lines if you want to use bmap extension
-  <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=YOUR_API_KEY"></script>
-  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/extension/bmap.min.js"></script>
-  -->
 
   <script type="text/javascript">
-    var dom = document.getElementById('container');
-    var myChart = echarts.init(dom, null, {
-      renderer: 'canvas',
-      useDirtyRect: false
-    });
-    var app = {};
-    var option;
+    // Carregar os dados do CSV
+    var csvData = `Data,Sales Revenue (USD),Store Location,Product Category
+    2022-01-15,200,New York,Electronics
+    2022-02-20,150,Los Angeles,Clothing
+    2022-03-25,300,Chicago,Furniture
+    2023-04-05,400,New York,Electronics
+    2023-05-10,250,Los Angeles,Clothing
+    2023-06-15,350,Chicago,Furniture`;
 
-    myChart.showLoading();
+    // Parse CSV para obter dados necessários
+    function parseCSV(csv) {
+      var rows = csv.trim().split("\n").slice(1);
+      var data = rows.map((row) => row.split(","));
+      var categories = {};
+      var yearlySales = {};
 
-data = "{\"nodes\":[{\"name\":\"Resíduos agrícolas\"},{\"name\":\"Bioconversão\"},{\"name\":\"Líquido\"},{\"name\":\"Perdas\"},{\"name\":\"Sólido\"},{\"name\":\"Gás\"},{\"name\":\"Importações de biocombustível\"},{\"name\":\"Importações de biomassa\"},{\"name\":\"Importações de carvão\"},{\"name\":\"Carvão\"},{\"name\":\"Reservas de carvão\"},{\"name\":\"Aquecimento distrital\"},{\"name\":\"Indústria\"},{\"name\":\"Aquecimento e refrigeração - comercial\"},{\"name\":\"Aquecimento e refrigeração - residências\"},{\"name\":\"Rede elétrica\"},{\"name\":\"Excedente/Exportações\"},{\"name\":\"Conversão para H2\"},{\"name\":\"Transporte rodoviário\"},{\"name\":\"Agricultura\"},{\"name\":\"Transporte ferroviário\"},{\"name\":\"Iluminação e eletrodomésticos - comercial\"},{\"name\":\"Iluminação e eletrodomésticos - residências\"},{\"name\":\"Importações de gás\"},{\"name\":\"Gás natural\"},{\"name\":\"Reservas de gás\"},{\"name\":\"Geração térmica\"},{\"name\":\"Geotérmica\"},{\"name\":\"H2\"},{\"name\":\"Hidrelétrica\"},{\"name\":\"Navegação internacional\"},{\"name\":\"Aviação doméstica\"},{\"name\":\"Aviação internacional\"},{\"name\":\"Navegação nacional\"},{\"name\":\"Alga marinha\"},{\"name\":\"Nuclear\"},{\"name\":\"Importações de petróleo\"},{\"name\":\"Petróleo\"},{\"name\":\"Reservas de petróleo\"},{\"name\":\"Outros resíduos\"},{\"name\":\"Calor bombeado\"},{\"name\":\"Solar fotovoltaica\"},{\"name\":\"Solar térmica\"},{\"name\":\"Solar\"},{\"name\":\"Marés\"},{\"name\":\"Bioenergia terrestre do Reino Unido\"},{\"name\":\"Ondas\"},{\"name\":\"Vento\"}],\"links\":[{\"source\": \"Resíduos agrícolas\", \"target\": \"Bioconversão\",  \"value\": 124.729},{\"source\": \"Bioconversão\", \"target\": \"Líquido\",  \"value\": 0.597},{\"source\": \"Bioconversão\",  \"target\": \"Perdas\",  \"value\": 26.862},{\"source\": \"Bioconversão\",  \"target\": \"Sólido\",  \"value\": 280.322},{\"source\": \"Bioconversão\", \"target\": \"Gás\",  \"value\": 81.144},{\"source\": \"Importações de biocombustível\", \"target\": \"Líquido\",  \"value\": 35},{\"source\": \"Importações de biomassa\", \"target\": \"Sólido\",  \"value\": 35},{\"source\": \"Importações de carvão\", \"target\": \"Carvão\", \"value\": 11.606},{\"source\": \"Reservas de carvão\",\"target\": \"Carvão\", \"value\": 63.965},{\"source\": \"Carvão\", \"target\": \"Sólido\", \"value\": 75.571},{\"source\": \"Aquecimento distrital\", \"target\": \"Indústria\", \"value\": 10.639},{\"source\": \"Aquecimento distrital\", \"target\": \"Aquecimento e refrigeração - comercial\", \"value\": 22.505},{\"source\": \"Aquecimento distrital\", \"target\": \"Aquecimento e refrigeração - residências\", \"value\": 46.184},{\"source\": \"Rede elétrica\", \"target\": \"Excedente/Exportações\", \"value\": 104.453},{\"source\": \"Rede elétrica\", \"target\": \"Aquecimento e refrigeração - residências\", \"value\": 113.726},{\"source\": \"Rede elétrica\", \"target\": \"Conversão para H2\", \"value\": 27.14},{\"source\": \"Rede elétrica\", \"target\": \"Indústria\", \"value\": 342.165},{\"source\": \"Rede elétrica\", \"target\": \"Transporte rodoviário\", \"value\": 37.797},{\"source\": \"Rede elétrica\", \"target\": \"Agricultura\", \"value\": 4.412},{\"source\": \"Rede elétrica\", \"target\": \"Aquecimento e refrigeração - comercial\", \"value\": 40.858},{\"source\": \"Rede elétrica\", \"target\": \"Perdas\", \"value\": 56.691},{\"source\": \"Rede elétrica\", \"target\": \"Transporte ferroviário\", \"value\": 7.863},{\"source\": \"Rede elétrica\", \"target\": \"Iluminação e eletrodomésticos - comercial\", \"value\": 90.008},{\"source\": \"Rede elétrica\", \"target\": \"Iluminação e eletrodomésticos - residências\", \"value\": 93.494},{\"source\": \"Importações de gás\", \"target\": \"Gás natural\", \"value\": 40.719},{\"source\": \"Reservas de gás\", \"target\": \"Gás natural\", \"value\": 82.233},{\"source\": \"Gás\", \"target\": \"Aquecimento e refrigeração - comercial\", \"value\": 0.129},{\"source\": \"Gás\", \"target\": \"Perdas\", \"value\": 1.401},{\"source\": \"Gás\", \"target\": \"Geração térmica\", \"value\": 151.891},{\"source\": \"Gás\", \"target\": \"Agricultura\", \"value\": 2.096},{\"source\": \"Gás\", \"target\": \"Indústria\", \"value\": 48.58},{\"source\": \"Geotérmica\", \"target\": \"Rede elétrica\", \"value\": 7.013},{\"source\": \"Conversão para H2\", \"target\": \"H2\", \"value\": 20.897},{\"source\": \"Conversão para H2\", \"target\": \"Perdas\", \"value\": 6.242},{\"source\": \"H2\", \"target\": \"Transporte rodoviário\", \"value\": 20.897},{\"source\": \"Hidrelétrica\", \"target\": \"Rede elétrica\", \"value\": 6.995},{\"source\": \"Líquido\", \"target\": \"Indústria\", \"value\": 121.066},{\"source\": \"Líquido\", \"target\": \"Navegação internacional\", \"value\": 128.69},{\"source\": \"Líquido\", \"target\": \"Transporte rodoviário\", \"value\": 135.835},{\"source\": \"Líquido\", \"target\": \"Aviação doméstica\", \"value\": 14.458},{\"source\": \"Líquido\", \"target\": \"Aviação internacional\", \"value\": 206.267},{\"source\": \"Líquido\", \"target\": \"Agricultura\", \"value\": 3.64},{\"source\": \"Líquido\", \"target\": \"Navegação nacional\", \"value\": 33.218},{\"source\": \"Líquido\", \"target\": \"Transporte ferroviário\", \"value\": 4.413},{\"source\": \"Alga marinha\", \"target\": \"Bioconversão\", \"value\": 4.375},{\"source\": \"Gás natural\", \"target\": \"Gás\", \"value\": 122.952},{\"source\": \"Nuclear\", \"target\": \"Geração térmica\", \"value\": 839.978},{\"source\": \"Importações de petróleo\", \"target\": \"Petróleo\", \"value\": 504.287},{\"source\": \"Reservas de petróleo\", \"target\": \"Petróleo\", \"value\": 107.703},{\"source\": \"Petróleo\", \"target\": \"Líquido\", \"value\": 611.99},{\"source\": \"Outros resíduos\", \"target\": \"Sólido\", \"value\": 56.587},{\"source\": \"Outros resíduos\", \"target\": \"Bioconversão\", \"value\": 77.81},{\"source\": \"Calor bombeado\", \"target\": \"Aquecimento e refrigeração - residências\", \"value\": 193.026},{\"source\": \"Calor bombeado\", \"target\": \"Aquecimento e refrigeração - comercial\", \"value\": 70.672},{\"source\": \"Solar fotovoltaica\", \"target\": \"Rede elétrica\", \"value\": 59.901},{\"source\": \"Solar térmica\", \"target\": \"Aquecimento e refrigeração - residências\", \"value\": 19.263},{\"source\": \"Solar\", \"target\": \"Solar térmica\", \"value\": 19.263},{\"source\": \"Solar\", \"target\": \"Solar fotovoltaica\", \"value\": 59.901},{\"source\": \"Sólido\", \"target\": \"Agricultura\", \"value\": 0.882},{\"source\": \"Sólido\", \"target\": \"Geração térmica\", \"value\": 400.12},{\"source\": \"Sólido\", \"target\": \"Indústria\", \"value\": 46.477},{\"source\": \"Geração térmica\", \"target\": \"Rede elétrica\", \"value\": 525.531},{\"source\": \"Geração térmica\", \"target\": \"Perdas\", \"value\": 787.129},{\"source\": \"Geração térmica\", \"target\": \"Aquecimento distrital\", \"value\": 79.329},{\"source\": \"Marés\", \"target\": \"Rede elétrica\", \"value\": 9.452},{\"source\": \"Bioenergia terrestre do Reino Unido\", \"target\": \"Bioconversão\", \"value\": 182.01},{\"source\": \"Ondas\", \"target\": \"Rede elétrica\", \"value\": 19.013},{\"source\": \"Vento\", \"target\": \"Rede elétrica\", \"value\": 289.366}]}";
-    data = JSON.parse(data);
+      data.forEach((d) => {
+        var date = new Date(d[0]);
+        var year = date.getFullYear();
+        var category = d[3];
+        var revenue = parseFloat(d[1]);
 
-    myChart.hideLoading();
-    myChart.setOption(
-        (option = {
-          title: {
-            text: ''
-          },
-          tooltip: {
-            trigger: 'item',
-            triggerOn: 'mousemove'
-          },
-          series: [
-            {
-              type: 'sankey',
-              data: data.nodes,
-              links: data.links,
-              emphasis: {
-                focus: 'adjacency'
-              },
-              lineStyle: {
-                color: 'gradient',
-                curveness: 0.5
-              }
-            }
-          ]
-        })
-      );
+        // Acumular vendas por categoria
+        if (!categories[category]) {
+          categories[category] = 0;
+        }
+        categories[category] += revenue;
 
-    if (option && typeof option === 'object') {
-      myChart.setOption(option);
+        // Acumular vendas por categoria ao longo dos anos
+        if (!yearlySales[year]) {
+          yearlySales[year] = {};
+        }
+        if (!yearlySales[year][category]) {
+          yearlySales[year][category] = 0;
+        }
+        yearlySales[year][category] += revenue;
+      });
+
+      return { categories, yearlySales };
     }
 
-    window.addEventListener('resize', myChart.resize);
+    var parsedData = parseCSV(csvData);
+
+    // Configuração do gráfico de pizza
+    var pieChart = echarts.init(document.getElementById("container_pie"));
+    var pieOption = {
+      title: {
+        text: "Distribuição de Vendas por Categoria de Produto",
+        left: "center",
+      },
+      tooltip: {
+        trigger: "item",
+      },
+      legend: {
+        orient: "vertical",
+        left: "left",
+      },
+      series: [
+        {
+          name: "Vendas",
+          type: "pie",
+          radius: "50%",
+          data: Object.keys(parsedData.categories).map(function (key) {
+            return { name: key, value: parsedData.categories[key] };
+          }),
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: "rgba(0, 0, 0, 0.5)",
+            },
+          },
+        },
+      ],
+    };
+    pieChart.setOption(pieOption);
+
+    // Configuração do gráfico de linhas (ou barras) de vendas ao longo dos anos
+    var lineChart = echarts.init(document.getElementById("container_line"));
+    var years = Object.keys(parsedData.yearlySales);
+    var categories = Object.keys(parsedData.categories);
+
+    var seriesData = categories.map((category) => ({
+      name: category,
+      type: "line",
+      data: years.map((year) => parsedData.yearlySales[year][category] || 0),
+    }));
+
+    var lineOption = {
+      title: {
+        text: "Vendas por Categoria ao Longo dos Anos",
+        left: "center",
+      },
+      tooltip: {
+        trigger: "axis",
+      },
+      legend: {
+        data: categories,
+        top: "bottom",
+      },
+      xAxis: {
+        type: "category",
+        data: years,
+      },
+      yAxis: {
+        type: "value",
+      },
+      series: seriesData,
+    };
+    lineChart.setOption(lineOption);
   </script>
+  <div id="footer">
+    <p>Resumo:</p>
+    <p class="resumo">
+      Essa visualização mostra a distribuição de vendas por categoria de
+      produto e a variação ao longo dos anos, permitindo uma análise clara das
+      tendências de vendas e do comportamento de diferentes categorias no
+      mercado.
+    </p>
+  </div>
 </body>
+
 </html>
