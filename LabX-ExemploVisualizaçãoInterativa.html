@@ -186,15 +186,25 @@
 
     <script type="text/javascript">
       function processCSVData(data) {
+        const categoryTranslationMap = {
+          Furniture: "Móveis",
+          Electronics: "Eletrônicos",
+          Groceries: "Mantimentos",
+          Clothing: "Vestuário",
+        };
+
         var categories = {};
         var yearlySales = {};
-
-        console.log({ processCSVData });
 
         data.forEach(function (row) {
           var date = new Date(row["Date"]);
           var year = date.getFullYear();
-          var category = row["Product Category"];
+          var category = categoryTranslationMap[row["Product Category"]];
+
+          if (!category) {
+            return; // Pula para a próxima iteração se a categoria não for válida
+          }
+
           var revenue = parseFloat(row["Sales Revenue (USD)"]);
 
           // Acumular vendas por categoria
@@ -241,6 +251,11 @@
           },
           tooltip: {
             trigger: "item",
+            formatter: function (params) {
+              return `${params.name}: ${Math.round(params.value)} (${
+                params.percent
+              }%)`;
+            },
           },
           legend: {
             orient: "vertical",
@@ -292,6 +307,15 @@
           },
           tooltip: {
             trigger: "axis",
+            formatter: function (params) {
+              var content = `${params[0].axisValue}<br/>`;
+              params.forEach(function (item) {
+                content += `${item.marker}${item.seriesName}: ${Math.round(
+                  item.data
+                )}<br/>`;
+              });
+              return content;
+            },
           },
           legend: {
             data: Array.from(categories),
