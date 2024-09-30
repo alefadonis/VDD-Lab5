@@ -228,6 +228,13 @@
       }
 
       function createPieChartForTooltip(containerId, data) {
+        const categoryColorMap = {
+          Móveis: "#5470c6",
+          Eletrônicos: "#91cc75",
+          Mantimentos: "#fac858",
+          Vestuário: "#ee6666",
+        };
+
         var pieChart = echarts.init(
           document.getElementById(containerId),
           null,
@@ -257,7 +264,13 @@
                 length2: 5,
               },
               data: Object.keys(data).map(function (key) {
-                return { name: key, value: data[key] };
+                return {
+                  name: key,
+                  value: data[key],
+                  itemStyle: {
+                    color: categoryColorMap[key],
+                  },
+                };
               }),
             },
           ],
@@ -295,7 +308,11 @@
             },
             formatter: function (params) {
               var year = params[0].axisValue;
-              var salesForYear = yearlySales[year] || {};
+              var salesForYear = {};
+
+              params.forEach(function (item) {
+                salesForYear[item.seriesName] = item.value;
+              });
 
               var sortedSales = Object.keys(salesForYear)
                 .map((category) => ({
