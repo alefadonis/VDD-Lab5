@@ -243,8 +243,8 @@
           document.getElementById(containerId),
           null,
           {
-            width: 150,
-            height: 150,
+            width: 300,
+            height: 250,
           }
         );
         var pieOption = {
@@ -264,7 +264,7 @@
               labelLine: {
                 show: true,
                 smooth: true,
-                length: 15,
+                length: 5,
                 length2: 5,
               },
               data: Object.keys(data).map(function (key) {
@@ -316,8 +316,8 @@
                 .sort((a, b) => b.value - a.value);
 
               var pieDiv = document.createElement("div");
-              pieDiv.style.width = "150px";
-              pieDiv.style.height = "150px";
+              pieDiv.style.width = "300px";
+              pieDiv.style.height = "250px";
               pieDiv.id = "tooltip-pie-chart";
               pieDiv.style.margin = "10px auto";
 
@@ -330,7 +330,7 @@
                 const matchingParam = params.find(
                   (param) => param.seriesName === item.category
                 );
-                const marker = matchingParam ? matchingParam.marker : ""; 
+                const marker = matchingParam ? matchingParam.marker : "";
 
                 content += `${marker}${item.category}: ${Math.round(
                   item.value
@@ -342,7 +342,7 @@
             backgroundColor: "#fff",
             textStyle: {
               color: "#343a40",
-              fontSize: 14,
+              fontSize: 18,
             },
             extraCssText:
               "padding: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);",
