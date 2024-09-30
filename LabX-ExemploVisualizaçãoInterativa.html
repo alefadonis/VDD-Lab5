@@ -233,56 +233,50 @@
           header: true,
           complete: function (results) {
             var parsedData = processCSVData(results.data);
-            // Gerar o gráfico de pizza
-            createPieChart(parsedData.categories);
-            // Gerar o gráfico de linha
             createLineChart(parsedData.yearlySales);
           },
         });
       }
 
-      // Configuração do gráfico de pizza
-      function createPieChart(categories) {
-        var pieChart = echarts.init(document.getElementById("container_pie"));
+      function createPieChartForTooltip(containerId, data) {
+        var pieChart = echarts.init(
+          document.getElementById(containerId),
+          null,
+          {
+            width: 150,
+            height: 150,
+          }
+        );
         var pieOption = {
-          title: {
-            text: "Distribuição de Vendas por Categoria de Produto",
-            left: "center",
-          },
-          tooltip: {
-            trigger: "item",
-            formatter: function (params) {
-              return `${params.name}: ${Math.round(params.value)} (${
-                params.percent
-              }%)`;
-            },
-          },
-          legend: {
-            orient: "vertical",
-            left: "left",
-          },
           series: [
             {
               name: "Vendas",
               type: "pie",
-              radius: "50%",
-              data: Object.keys(categories).map(function (key) {
-                return { name: key, value: categories[key] };
-              }),
-              emphasis: {
-                itemStyle: {
-                  shadowBlur: 10,
-                  shadowOffsetX: 0,
-                  shadowColor: "rgba(0, 0, 0, 0.5)",
+              radius: "60%",
+              label: {
+                show: true,
+                formatter: "{d}%",
+                textStyle: {
+                  color: "#343a40",
+                  fontSize: 14,
                 },
               },
+              labelLine: {
+                show: true,
+                smooth: true,
+                length: 15,
+                length2: 5,
+              },
+              data: Object.keys(data).map(function (key) {
+                return { name: key, value: data[key] };
+              }),
             },
           ],
         };
         pieChart.setOption(pieOption);
+        return pieChart.getDataURL();
       }
 
-      // Configuração do gráfico de linhas
       function createLineChart(yearlySales) {
         var lineChart = echarts.init(document.getElementById("container_line"));
         var years = Object.keys(yearlySales);
@@ -307,15 +301,51 @@
           },
           tooltip: {
             trigger: "axis",
-            formatter: function (params) {
-              var content = `${params[0].axisValue}<br/>`;
-              params.forEach(function (item) {
-                content += `${item.marker}${item.seriesName}: ${Math.round(
-                  item.data
-                )}<br/>`;
-              });
-              return content;
+            axisPointer: {
+              type: "cross",
             },
+            formatter: function (params) {
+              var year = params[0].axisValue;
+              var salesForYear = yearlySales[year] || {};
+
+              var sortedSales = Object.keys(salesForYear)
+                .map((category) => ({
+                  category,
+                  value: salesForYear[category],
+                }))
+                .sort((a, b) => b.value - a.value);
+
+              var pieDiv = document.createElement("div");
+              pieDiv.style.width = "150px";
+              pieDiv.style.height = "150px";
+              pieDiv.id = "tooltip-pie-chart";
+              pieDiv.style.margin = "10px auto";
+
+              setTimeout(function () {
+                createPieChartForTooltip(pieDiv.id, salesForYear);
+              }, 10);
+
+              var content = `<strong>${year}</strong><br/>`;
+              sortedSales.forEach(function (item) {
+                const matchingParam = params.find(
+                  (param) => param.seriesName === item.category
+                );
+                const marker = matchingParam ? matchingParam.marker : ""; 
+
+                content += `${marker}${item.category}: ${Math.round(
+                  item.value
+                ).toLocaleString()}<br/>`;
+              });
+
+              return content + `<br/>` + pieDiv.outerHTML;
+            },
+            backgroundColor: "#fff",
+            textStyle: {
+              color: "#343a40",
+              fontSize: 14,
+            },
+            extraCssText:
+              "padding: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);",
           },
           legend: {
             data: Array.from(categories),
@@ -330,11 +360,11 @@
           },
           series: seriesData,
         };
+
         lineChart.setOption(lineOption);
       }
 
-      // Carregar e processar o arquivo CSV
-      loadCSV("Retail_sales.csv"); // Substitua pelo caminho correto do seu arquivo CSV
+      loadCSV("Retail_sales.csv");
     </script>
 
     <div id="footer">
