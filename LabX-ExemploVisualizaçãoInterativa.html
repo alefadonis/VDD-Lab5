@@ -215,16 +215,38 @@
         return { categories, yearlySales };
       }
 
-      // Função para carregar o arquivo CSV
       function loadCSV(csvUrl) {
-        Papa.parse(csvUrl, {
-          download: true,
-          header: true,
-          complete: function (results) {
-            var parsedData = processCSVData(results.data);
-            createLineChart(parsedData.yearlySales);
-          },
-        });
+        const localStorageKey = "cachedCSVData";
+
+        const cachedData = localStorage.getItem(localStorageKey);
+        console.log(cachedData);
+
+        if (cachedData) {
+          Papa.parse(cachedData, {
+            header: true,
+            complete: function (results) {
+              var parsedData = processCSVData(results.data);
+              createLineChart(parsedData.yearlySales);
+            },
+          });
+        } else {
+          fetch(csvUrl)
+            .then((response) => response.text())
+            .then((data) => {
+              localStorage.setItem(localStorageKey, data);
+
+              Papa.parse(data, {
+                header: true,
+                complete: function (results) {
+                  var parsedData = processCSVData(results.data);
+                  createLineChart(parsedData.yearlySales);
+                },
+              });
+            })
+            .catch((error) => {
+              console.error("Error fetching the CSV file:", error);
+            });
+        }
       }
 
       function createPieChartForTooltip(containerId, data) {
@@ -352,8 +374,10 @@
 
         lineChart.setOption(lineOption);
       }
+      const targetUrl =
+        "https://raw.githubusercontent.com/alefadonis/VDD-Lab5/refs/heads/main/Retail_sales.csv";
 
-      loadCSV("Retail_sales.csv");
+      loadCSV(targetUrl);
     </script>
 
     <div id="footer">
